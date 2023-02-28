@@ -80,7 +80,7 @@ class Trainer():
             train_acc, train_loss, val_acc, val_loss  = 0,0,0,0
 
             train_acc, train_loss = self.train()
-            # val_acc, val_loss = self.validate()
+            val_acc, val_loss = self.validate()
             if self.scheduler is not None:
                 self.scheduler.step(train_loss)
 
