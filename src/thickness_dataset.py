@@ -65,8 +65,13 @@ class ThicknessDataset(Dataset):
         sample['catagory'] = self.dataframe.iloc[idx,self.df_cols.index('catagory')]
         sample['model_id'] = self.dataframe.iloc[idx,self.df_cols.index('model_id')]
         sample['sample_no'] = self.dataframe.iloc[idx,self.df_cols.index('sample_no')]
+        
         sample['depth_map'] = np.load(self.dataframe.iloc[idx,self.df_cols.index('depth_map_path')]).reshape(1,128,128)
         sample['thick_map'] = np.load(self.dataframe.iloc[idx,self.df_cols.index('thick_map_path')]).reshape(1,128,128)
+        vis = np.load(self.dataframe.iloc[idx,self.df_cols.index('thick_map_path')]).reshape(1,128,128)
+        vis = vis!=0
+        vis = vis.astype(int)
+        sample['visibility'] = vis
         sample['img'] = cv2.imread(self.dataframe.iloc[idx,self.df_cols.index('img_path')], cv2.COLOR_BGR2RGB)
         
         if self.transform is not None:

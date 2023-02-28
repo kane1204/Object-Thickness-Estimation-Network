@@ -28,3 +28,17 @@ def accuracy_debug(model, ds, pct_close):
             n_wrong += 1
     acc = (n_correct * 1.0) / (n_correct + n_wrong)
     return acc
+
+def mse_loss_with_nans(input, target, mask):
+
+    # Missing data are nan's
+    # mask = torch.isnan(target)
+
+    # Missing data are 0's
+    mask = target == 0
+    print (mask)
+
+    out = (input[~mask]-target[~mask])**2
+    loss = out.mean()
+
+    return loss

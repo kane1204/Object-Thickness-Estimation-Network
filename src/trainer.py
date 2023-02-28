@@ -4,7 +4,7 @@ import torch.nn as nn
 import time
 import torch.optim as optim
 
-from src.evaluation import accuracy_fast
+from src.evaluation import accuracy_fast, mse_loss_with_nans
 
 class Trainer():
     def __init__(self, model, optimiser, loss_fn, training_data, validation_data, acc_thresh=0.1, scheduler=None, view=False):
@@ -21,7 +21,6 @@ class Trainer():
         self.loss_fn = self.loss_fn.to(self.device)
         self.acc_thresh = acc_thresh
     def train(self):#
-        max_norm = False
         epoch_acc, epoch_loss = 0, 0
         batches = 0 
         self.model.train()
@@ -32,13 +31,10 @@ class Trainer():
             pred = self.model(x)
 
             loss = self.loss_fn(pred, y)
-            train_acc = accuracy_fast(pred, y, self.acc_thresh)
+            train_acc = mse_loss_with_nans(pred, y)
             
             self.optimiser.zero_grad()
             loss.backward()
-
-            if max_norm:
-                nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1)#
             
             self.optimiser.step()
             
@@ -47,9 +43,9 @@ class Trainer():
             epoch_acc += train_acc
             batches += 1
             # Un indent after done for overfitting test
-            train_acc = epoch_acc/batches
-            train_loss = epoch_loss/batches
-            return train_acc, train_loss
+        train_acc = epoch_acc/batches
+        train_loss = epoch_loss/batches
+        return train_acc, train_loss
     
     def validate(self):
         epoch_acc, epoch_loss = 0, 0
@@ -63,7 +59,7 @@ class Trainer():
                 pred = self.model(x)
                 
                 loss = self.loss_fn(pred, y)
-                val_acc = accuracy_fast(pred, y, self.acc_thresh)
+                val_acc =  mse_loss_with_nans(pred, y)
 
                 epoch_loss += loss.item()
                 epoch_acc += val_acc
@@ -91,12 +87,12 @@ class Trainer():
             if save:
                 # Append Training and validation stats to file
                 self.append_file(f"{file_desc}_train_loss", train_loss)
-                self.append_file(f"{file_desc}_train_acc", train_acc)
+                self.append_file(f"{file_desc}_train_masked_loss", train_acc)
                 self.append_file(f"{file_desc}_val_loss", val_loss)
-                self.append_file(f"{file_desc}_val_acc", val_acc)
+                self.append_file(f"{file_desc}_val_masked_loss", val_acc)
                 path = f"models/{file_desc}_{epoch}"
-                # torch.save(self.model.state_dict(), path)
-            print(f'Finished Epoch: {epoch} | Train Acc: {train_acc:.3f} | Train Loss: {train_loss:.5f} | Val Acc: {val_acc:.3f} | Val Loss: {val_loss:.5f}')
+                torch.save(self.model.state_dict(), path)
+            print(f'Finished Epoch: {epoch} | Train Masked Loss: {train_acc:.5f} | Train Loss: {train_loss:.5f} | Val  Masked Loss: {val_acc:.5f} | Val Loss: {val_loss:.5f}')
             # print(f'Finished Epoch: {epoch} | Train Loss: {train_loss:.5f} | Val Loss: {val_loss:.5f}')
 
         print("Done!")
