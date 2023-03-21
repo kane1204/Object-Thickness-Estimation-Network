@@ -1,11 +1,11 @@
-,file_name,thicker,thinner,label
-0,02808440\88d183f319cddb7344221bef0fa3c36b\frame_0,"(48, 50)","(65, 88)",red
-1,02880940\899af991203577f019790c8746d79a6f\frame_0,"(67, 58)","(76, 76)",blue
-2,02942699\ce40b134b11e8c822bbc2c380e91dfe2\frame_1,"(92, 61)","(76, 64)",blue
-3,02958343\ba494b33be3a3e0dc1bbb501b1d87871\frame_1,"(52, 67)","(77, 71)",blue
-4,03761084\46dbba829a57ace8cffd61677456447e\frame_0,"(52, 65)","(54, 76)",red
-5,03991062\67bc9bec05f78850f9e08161aea27d2f\frame_0,"(65, 62)","(57, 75)",blue
-6,04225987\1d527bbed4d12817fa3bb91f4e3cd35f\frame_0,"(68, 47)","(64, 58)",blue
-7,04256520\bc6a3fa659dd7ec0c62ac18334863d36\frame_1,"(78, 42)","(48, 51)",blue
-8,04401088\f400eb5421283e8a102f4912aece242b\frame_2,"(73, 64)","(43, 60)",red
-9,04460130\15cc3d9020384e8d6e09a8e31c7575c5\frame_2,"(64, 66)","(31, 84)",red
+,file_name,thicker,thinner,label,image_name
+0,02808440\88d183f319cddb7344221bef0fa3c36b\frame_0,"(51, 50)","(53, 97)",blue,0_labeled.png
+2,02942699\ce40b134b11e8c822bbc2c380e91dfe2\frame_1,"(92, 64)","(75, 64)",red,2_labeled.png
+5,03991062\67bc9bec05f78850f9e08161aea27d2f\frame_0,"(70, 54)","(46, 67)",red,5_labeled.png
+3,02958343\ba494b33be3a3e0dc1bbb501b1d87871\frame_1,"(55, 65)","(64, 45)",red,3_labeled.png
+9,04460130\15cc3d9020384e8d6e09a8e31c7575c5\frame_2,"(64, 67)","(67, 27)",blue,9_labeled.png
+7,04256520\bc6a3fa659dd7ec0c62ac18334863d36\frame_1,"(76, 48)","(51, 90)",blue,7_labeled.png
+4,03761084\46dbba829a57ace8cffd61677456447e\frame_0,"(51, 66)","(67, 92)",blue,4_labeled.png
+6,04225987\1d527bbed4d12817fa3bb91f4e3cd35f\frame_0,"(68, 47)","(61, 50)",red,6_labeled.png
+8,04401088\f400eb5421283e8a102f4912aece242b\frame_2,"(75, 62)","(42, 63)",blue,8_labeled.png
+1,02880940\899af991203577f019790c8746d79a6f\frame_0,"(68, 57)","(77, 73)",blue,1_labeled.png
