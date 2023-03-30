@@ -41,3 +41,23 @@ def mse_loss_with_nans(input, target):
     loss = out.mean()
 
     return loss
+
+
+def mse_loss_with_nans_with_extras(input, target):
+
+    # Missing data are 0's
+    mask = target == 0
+
+    # Create a tensor filled with zeros and the same shape as the target tensor
+    squared_diff = torch.zeros_like(target)
+
+    # Compute the squared difference only for elements where the mask is False
+    squared_diff[~mask] = (input[~mask] - target[~mask])**2
+
+    # Compute the mean of the squared difference along the spatial dimensions, assuming (N, C, H, W) tensor shape
+    loss_per_sample = squared_diff.mean(dim=(1, 2, 3))
+
+    # Compute the mean of the loss for the entire batch
+    loss = loss_per_sample.mean()
+
+    return loss, loss_per_sample
