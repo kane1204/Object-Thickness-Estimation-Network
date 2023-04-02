@@ -87,11 +87,12 @@ class ThicknessDataset(Dataset):
         vis = vis!=0
         vis = vis.astype(int)
         sample['visibility'] = vis
+        sample['img_loc'] = self.dataframe.iloc[idx,self.df_cols.index('img_path')]
         sample['img'] = cv2.imread(self.dataframe.iloc[idx,self.df_cols.index('img_path')], cv2.COLOR_BGR2RGB)
         # This is the correct method to read the image but due to training on this error i will continue to use the above method
         # img = cv2.imread(self.dataframe.iloc[idx,self.df_cols.index('img_path')])
         # sample['img'] =  cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        
+         
         if self.transform is not None:
             sample['img'] = self.transform(image = sample['img'])['image']
         
