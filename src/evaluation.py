@@ -44,20 +44,31 @@ def mse_loss_with_nans(input, target):
 
 
 def mse_loss_with_nans_with_extras(input, target):
-
     # Missing data are 0's
     mask = target == 0
 
-    # Create a tensor filled with zeros and the same shape as the target tensor
-    squared_diff = torch.zeros_like(target)
+    # Compute the squared differences for non-missing data
+    squared_diff = (input[~mask] - target[~mask]) ** 2
 
-    # Compute the squared difference only for elements where the mask is False
-    squared_diff[~mask] = (input[~mask] - target[~mask])**2
+    # Calculate the mean of the squared differences
+    total_loss = squared_diff.mean()
 
-    # Compute the mean of the squared difference along the spatial dimensions, assuming (N, C, H, W) tensor shape
-    loss_per_sample = squared_diff.mean(dim=(1, 2, 3))
+    # Reshape the mask to match the input shape
+    reshaped_mask = mask.reshape(input.shape)
 
-    # Compute the mean of the loss for the entire batch
-    loss = loss_per_sample.mean()
+    # Create a new tensor to store the individual losses
+    individual_losses = torch.zeros_like(input)
 
-    return loss, loss_per_sample
+    # Assign the squared differences to the non-missing data positions
+    individual_losses[~reshaped_mask] = squared_diff
+
+    # Calculate the average loss per image
+    n_samples = input.shape[0]
+    avg_loss_per_image = torch.zeros(n_samples)
+
+    for i in range(n_samples):
+        valid_pixels = (individual_losses[i] != 0).sum()
+        if valid_pixels > 0:
+            avg_loss_per_image[i] = individual_losses[i].sum() / valid_pixels
+
+    return total_loss, avg_loss_per_image
