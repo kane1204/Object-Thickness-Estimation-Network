@@ -1,4 +1,4 @@
-# ote-network
+# Object-Thickness-Estimation-Network
 CNN that uses UNet architecture to predict the thickness of objects in an image. This profiles the deep learning network for my masters project part 2.
 
 ## Abstract
